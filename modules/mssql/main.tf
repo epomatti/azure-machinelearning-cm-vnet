@@ -40,10 +40,3 @@ resource "azurerm_mssql_firewall_rule" "allow_access_to_azure_services" {
   start_ip_address = "0.0.0.0"
   end_ip_address   = "0.0.0.0"
 }
-
-# Customer VNET service endpoints
-resource "azurerm_mssql_virtual_network_rule" "default" {
-  name      = "default-subnet"
-  server_id = azurerm_mssql_server.default.id
-  subnet_id = var.subnet_id
-}

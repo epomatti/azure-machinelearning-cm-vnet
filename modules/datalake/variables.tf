@@ -17,7 +17,3 @@ variable "ip_network_rules" {
 variable "datastores_service_principal_object_id" {
   type = string
 }
-
-variable "subnet_id" {
-  type = string
-}

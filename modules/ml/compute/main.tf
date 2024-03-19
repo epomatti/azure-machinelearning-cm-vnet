@@ -4,7 +4,8 @@ resource "azurerm_machine_learning_compute_instance" "dev1" {
   machine_learning_workspace_id = var.machine_learning_workspace_id
   virtual_machine_size          = var.instance_vm_size
   authorization_type            = "personal"
-  node_public_ip_enabled        = var.instance_node_public_ip_enabled
+  node_public_ip_enabled        = false
+  subnet_resource_id            = var.training_subnet_id
 
   ssh {
     public_key = var.ssh_public_key

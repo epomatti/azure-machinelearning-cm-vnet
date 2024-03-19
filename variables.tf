@@ -13,18 +13,6 @@ variable "allowed_ip_address" {
 }
 
 ### AML ###
-variable "mlw_public_network_access_enabled" {
-  type = bool
-}
-
-variable "mlw_create_private_endpoint_flag" {
-  type = bool
-}
-
-variable "mlw_instance_node_public_ip_enabled" {
-  type = bool
-}
-
 variable "mlw_instance_create_flag" {
   type = bool
 }
@@ -38,10 +26,6 @@ variable "mlw_instance_ssh_public_key_rel_path" {
 }
 
 ### MSSQL ###
-variable "mssql_create_flag" {
-  type = bool
-}
-
 variable "mssql_sku" {
   type = string
 }

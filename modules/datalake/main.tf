@@ -17,10 +17,9 @@ resource "azurerm_storage_account" "lake" {
   public_network_access_enabled = true
 
   network_rules {
-    default_action             = "Deny"
-    ip_rules                   = var.ip_network_rules
-    virtual_network_subnet_ids = [var.subnet_id]
-    bypass                     = ["AzureServices"]
+    default_action = "Deny"
+    ip_rules       = var.ip_network_rules
+    bypass         = ["AzureServices"]
   }
 
   lifecycle {
@@ -56,22 +55,3 @@ resource "azurerm_storage_blob" "csv" {
   type                   = "Block"
   source                 = "${path.module}/${local.file}"
 }
-
-# Adds permission to the Application Registration for the datastores
-# resource "azurerm_role_assignment" "app_registration_contributor" {
-#   scope                = azurerm_storage_account.lake.id
-#   role_definition_name = "Contributor"
-#   principal_id         = var.datastores_service_principal_object_id
-# }
-
-# resource "azurerm_role_assignment" "app_registration" {
-#   scope                = azurerm_storage_account.lake.id
-#   role_definition_name = "Storage Blob Data Contributor"
-#   principal_id         = var.datastores_service_principal_object_id
-# }
-
-# resource "azurerm_role_assignment" "app_registration_owner" {
-#   scope                = azurerm_storage_account.lake.id
-#   role_definition_name = "Storage Blob Data Owner"
-#   principal_id         = var.datastores_service_principal_object_id
-# }
