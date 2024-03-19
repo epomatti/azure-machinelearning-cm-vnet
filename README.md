@@ -2,7 +2,7 @@
 
 Implementation of [AML network isolation][1] with a customer-managed VNET.
 
-<img src=".assets/aml-architecture-vnet.png" />
+<img src=".assets/aml-architecture-vnet2.png" />
 
 Create the variables file:
 
