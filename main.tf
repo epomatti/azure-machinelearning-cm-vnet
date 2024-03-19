@@ -130,6 +130,7 @@ module "private_endpoints" {
 
   aml_workspace_id             = module.ml_workspace.aml_workspace_id
   container_registry_id        = module.cr.id
+  keyvault_id                  = module.keyvault.key_vault_id
   aml_storage_account_id       = module.storage.storage_account_id
   data_lake_storage_account_id = module.data_lake.id
   sql_server_id                = module.mssql.server_id
