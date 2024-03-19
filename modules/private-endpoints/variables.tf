@@ -22,6 +22,10 @@ variable "container_registry_id" {
   type = string
 }
 
+variable "aml_storage_account_id" {
+  type = string
+}
+
 variable "data_lake_storage_account_id" {
   type = string
 }

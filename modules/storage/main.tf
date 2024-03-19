@@ -11,10 +11,9 @@ resource "azurerm_storage_account" "default" {
   public_network_access_enabled = true
 
   network_rules {
-    default_action             = "Deny"
-    ip_rules                   = var.ip_network_rules
-    virtual_network_subnet_ids = [var.subnet_id]
-    bypass                     = ["AzureServices"]
+    default_action = "Deny"
+    ip_rules       = var.ip_network_rules
+    bypass         = ["AzureServices"]
   }
 
   lifecycle {

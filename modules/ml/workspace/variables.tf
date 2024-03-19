@@ -10,10 +10,6 @@ variable "workload" {
   type = string
 }
 
-variable "public_network_access_enabled" {
-  type = bool
-}
-
 variable "application_insights_id" {
   type = string
 }

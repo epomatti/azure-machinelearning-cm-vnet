@@ -43,10 +43,6 @@ variable "mssql_admin_login_password" {
 }
 
 ### Virtual Machine ###
-variable "vm_create_flag" {
-  type = bool
-}
-
 variable "vm_size" {
   type = string
 }

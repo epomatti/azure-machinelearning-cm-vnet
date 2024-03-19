@@ -25,7 +25,7 @@ locals {
 }
 
 resource "azurerm_resource_group" "default" {
-  name     = "rg-${var.workload}"
+  name     = "rg-${var.workload}-${local.affix}"
   location = var.location
 }
 
@@ -50,7 +50,6 @@ module "storage" {
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
   ip_network_rules    = local.allowed_ip_addresses
-  subnet_id           = module.vnet.private_endpoints_subnet_id
 }
 
 module "keyvault" {
@@ -103,11 +102,10 @@ module "ml_workspace" {
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
 
-  public_network_access_enabled = false
-  application_insights_id       = module.monitor.application_insights_id
-  storage_account_id            = module.storage.storage_account_id
-  key_vault_id                  = module.keyvault.key_vault_id
-  container_registry_id         = module.cr.id
+  application_insights_id = module.monitor.application_insights_id
+  storage_account_id      = module.storage.storage_account_id
+  key_vault_id            = module.keyvault.key_vault_id
+  container_registry_id   = module.cr.id
 
   data_lake_id = module.data_lake.id
 }
@@ -123,22 +121,22 @@ module "ml_compute" {
   training_subnet_id            = module.vnet.training_subnet_id
 }
 
-# module "private_endpoints" {
-#   source                      = "./modules/private-endpoints"
-#   resource_group_name         = azurerm_resource_group.default.name
-#   location                    = azurerm_resource_group.default.location
-#   vnet_id                     = module.vnet.vnet_id
-#   private_endpoints_subnet_id = module.vnet.private_endpoints_subnet_id
+module "private_endpoints" {
+  source                      = "./modules/private-endpoints"
+  resource_group_name         = azurerm_resource_group.default.name
+  location                    = azurerm_resource_group.default.location
+  vnet_id                     = module.vnet.vnet_id
+  private_endpoints_subnet_id = module.vnet.private_endpoints_subnet_id
 
-#   aml_workspace_id             = module.ml_workspace.aml_workspace_id
-#   container_registry_id        = module.cr.id
-#   data_lake_storage_account_id = module.data_lake.id
-#   sql_server_id                = module.mssql.server_id
-# }
+  aml_workspace_id             = module.ml_workspace.aml_workspace_id
+  container_registry_id        = module.cr.id
+  aml_storage_account_id       = module.storage.storage_account_id
+  data_lake_storage_account_id = module.data_lake.id
+  sql_server_id                = module.mssql.server_id
+}
 
 module "vm" {
   source              = "./modules/vm"
-  count               = var.vm_create_flag ? 1 : 0
   workload            = var.workload
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
