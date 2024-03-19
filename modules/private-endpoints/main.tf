@@ -163,6 +163,27 @@ resource "azurerm_private_endpoint" "file" {
   }
 }
 
+resource "azurerm_private_endpoint" "dfs" {
+  name                = "pe-dfs"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  subnet_id           = var.private_endpoints_subnet_id
+
+  private_dns_zone_group {
+    name = azurerm_private_dns_zone.dfs.name
+    private_dns_zone_ids = [
+      azurerm_private_dns_zone.dfs.id
+    ]
+  }
+
+  private_service_connection {
+    name                           = "dfs"
+    private_connection_resource_id = var.data_lake_storage_account_id
+    is_manual_connection           = false
+    subresource_names              = ["dfs"]
+  }
+}
+
 resource "azurerm_private_endpoint" "sql_server" {
   name                = "pe-sqlserver"
   location            = var.location
