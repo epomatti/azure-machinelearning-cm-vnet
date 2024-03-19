@@ -1,3 +1,5 @@
+data "azuread_client_config" "current" {}
+
 resource "azurerm_storage_account" "default" {
   name                      = "st${var.workload}"
   location                  = var.location
@@ -21,4 +23,10 @@ resource "azurerm_storage_account" "default" {
       network_rules[0].private_link_access
     ]
   }
+}
+
+resource "azurerm_role_assignment" "adlsv2" {
+  scope                = azurerm_storage_account.default.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = data.azuread_client_config.current.object_id
 }

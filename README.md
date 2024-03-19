@@ -13,5 +13,10 @@ terraform apply -auto-approve
 
 Approve the private endpoints
 
+Full private: disable public access
+
+
+https://learn.microsoft.com/en-us/azure/machine-learning/how-to-troubleshoot-secure-connection-workspace?view=azureml-api-2
+
 
 [1]: https://learn.microsoft.com/en-us/azure/machine-learning/how-to-network-isolation-planning?view=azureml-api-2#recommended-architecture-use-your-azure-vnet

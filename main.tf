@@ -141,5 +141,6 @@ module "vm" {
   resource_group_name = azurerm_resource_group.default.name
   location            = azurerm_resource_group.default.location
   size                = var.vm_size
+  image_sku           = var.vm_image_sku
   subnet              = module.vnet.bastion_subnet_id
 }

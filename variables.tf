@@ -46,3 +46,7 @@ variable "mssql_admin_login_password" {
 variable "vm_size" {
   type = string
 }
+
+variable "vm_image_sku" {
+  type = string
+}

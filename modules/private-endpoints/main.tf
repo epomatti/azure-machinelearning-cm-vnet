@@ -4,6 +4,11 @@ resource "azurerm_private_dns_zone" "aml" {
   resource_group_name = var.resource_group_name
 }
 
+resource "azurerm_private_dns_zone" "notebooks" {
+  name                = "privatelink.notebooks.azure.net"
+  resource_group_name = var.resource_group_name
+}
+
 resource "azurerm_private_dns_zone" "registry" {
   name                = "privatelink.azurecr.io"
   resource_group_name = var.resource_group_name
@@ -34,6 +39,14 @@ resource "azurerm_private_dns_zone_virtual_network_link" "aml" {
   name                  = "aml-workspace-link"
   resource_group_name   = var.resource_group_name
   private_dns_zone_name = azurerm_private_dns_zone.aml.name
+  virtual_network_id    = var.vnet_id
+  registration_enabled  = false
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "notebooks" {
+  name                  = "notebooks-link"
+  resource_group_name   = var.resource_group_name
+  private_dns_zone_name = azurerm_private_dns_zone.notebooks.name
   virtual_network_id    = var.vnet_id
   registration_enabled  = false
 }
@@ -94,6 +107,27 @@ resource "azurerm_private_endpoint" "aml" {
 
   private_service_connection {
     name                           = "aml-workspace"
+    private_connection_resource_id = var.aml_workspace_id
+    is_manual_connection           = false
+    subresource_names              = ["amlworkspace"]
+  }
+}
+
+resource "azurerm_private_endpoint" "notebooks" {
+  name                = "pe-notebooks"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  subnet_id           = var.private_endpoints_subnet_id
+
+  private_dns_zone_group {
+    name = azurerm_private_dns_zone.notebooks.name
+    private_dns_zone_ids = [
+      azurerm_private_dns_zone.notebooks.id
+    ]
+  }
+
+  private_service_connection {
+    name                           = "notebooks"
     private_connection_resource_id = var.aml_workspace_id
     is_manual_connection           = false
     subresource_names              = ["amlworkspace"]
@@ -181,6 +215,27 @@ resource "azurerm_private_endpoint" "dfs" {
     private_connection_resource_id = var.data_lake_storage_account_id
     is_manual_connection           = false
     subresource_names              = ["dfs"]
+  }
+}
+
+resource "azurerm_private_endpoint" "lake_blob" {
+  name                = "pe-lake-blob"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  subnet_id           = var.private_endpoints_subnet_id
+
+  private_dns_zone_group {
+    name = azurerm_private_dns_zone.blob.name
+    private_dns_zone_ids = [
+      azurerm_private_dns_zone.blob.id
+    ]
+  }
+
+  private_service_connection {
+    name                           = "blob"
+    private_connection_resource_id = var.data_lake_storage_account_id
+    is_manual_connection           = false
+    subresource_names              = ["blob"]
   }
 }
 

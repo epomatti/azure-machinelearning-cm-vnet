@@ -17,3 +17,7 @@ variable "subnet" {
 variable "size" {
   type = string
 }
+
+variable "image_sku" {
+  type = string
+}

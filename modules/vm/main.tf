@@ -44,7 +44,7 @@ resource "azurerm_windows_virtual_machine" "windows11" {
   source_image_reference {
     publisher = "MicrosoftWindowsDesktop"
     offer     = "Windows-11"
-    sku       = "win11-23h2-pron"
+    sku       = var.image_sku
     version   = "latest"
   }
 }

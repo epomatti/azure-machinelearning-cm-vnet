@@ -18,6 +18,10 @@ resource "azurerm_machine_learning_workspace" "default" {
 
   primary_user_assigned_identity = azurerm_user_assigned_identity.mlw.id
 
+  managed_network {
+    isolation_mode = "AllowInternetOutbound"
+  }
+
   identity {
     type = "UserAssigned"
 
@@ -87,3 +91,18 @@ resource "azurerm_role_assignment" "lake_contributor" {
   role_definition_name = "Contributor"
   principal_id         = azurerm_user_assigned_identity.mlw.principal_id
 }
+
+### User permissions
+# data "azuread_client_config" "current" {}
+
+# resource "azurerm_role_assignment" "azureml_data_scientist" {
+#   scope                = azurerm_machine_learning_workspace.default.id
+#   role_definition_name = "AzureML Data Scientist"
+#   principal_id         = data.azuread_client_config.current.object_id
+# }
+
+# resource "azurerm_role_assignment" "azureml_data_operator" {
+#   scope                = azurerm_machine_learning_workspace.default.id
+#   role_definition_name = "AzureML Compute Operator"
+#   principal_id         = data.azuread_client_config.current.object_id
+# }
