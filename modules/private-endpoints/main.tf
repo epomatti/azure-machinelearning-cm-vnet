@@ -69,7 +69,7 @@ resource "azurerm_private_endpoint" "aml" {
   private_service_connection {
     name                           = "aml-workspace"
     private_connection_resource_id = var.aml_workspace_id
-    is_manual_connection           = false
+    is_manual_connection           = true
     subresource_names              = ["amlworkspace"]
   }
 }
@@ -90,7 +90,7 @@ resource "azurerm_private_endpoint" "registry" {
   private_service_connection {
     name                           = "registry"
     private_connection_resource_id = var.container_registry_id
-    is_manual_connection           = false
+    is_manual_connection           = true
     subresource_names              = ["registry"]
   }
 }
@@ -111,7 +111,7 @@ resource "azurerm_private_endpoint" "dfs" {
   private_service_connection {
     name                           = "dfs"
     private_connection_resource_id = var.data_lake_storage_account_id
-    is_manual_connection           = false
+    is_manual_connection           = true
     subresource_names              = ["dfs"]
   }
 }
@@ -132,7 +132,7 @@ resource "azurerm_private_endpoint" "sql_server" {
   private_service_connection {
     name                           = "sql-server"
     private_connection_resource_id = var.sql_server_id
-    is_manual_connection           = false
+    is_manual_connection           = true
     subresource_names              = ["sqlServer"]
   }
 }
