@@ -119,6 +119,8 @@ module "ml_compute" {
   instance_vm_size              = var.mlw_instance_vm_size
   ssh_public_key                = local.ssh_public_key
   training_subnet_id            = module.vnet.training_subnet_id
+
+  depends_on = [module.private_endpoints]
 }
 
 module "private_endpoints" {
