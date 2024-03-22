@@ -6,6 +6,7 @@ resource "azurerm_user_assigned_identity" "mlw" {
 
 resource "azurerm_machine_learning_workspace" "default" {
   name                = "mlw-${var.workload}"
+  friendly_name       = "Litware Machine Learning"
   location            = var.location
   resource_group_name = var.resource_group_name
 
@@ -18,9 +19,9 @@ resource "azurerm_machine_learning_workspace" "default" {
 
   primary_user_assigned_identity = azurerm_user_assigned_identity.mlw.id
 
+  # Disabled is the state that seems to be required to enable VNET integration
   managed_network {
-    # AllowInternetOutbound, AllowOnlyApprovedOutbound
-    isolation_mode = "AllowInternetOutbound"
+    isolation_mode = "Disabled"
   }
 
   identity {
