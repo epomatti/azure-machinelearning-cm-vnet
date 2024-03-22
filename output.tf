@@ -1,5 +1,5 @@
 output "app_registration_client_id" {
-  value = module.entra.app_registration_client_id
+  value = module.entra_service_principal.app_registration_client_id
 }
 
 output "aml_workspace_name" {

@@ -68,9 +68,16 @@ module "cr" {
   allowed_ip_address  = var.allowed_ip_address
 }
 
-module "entra" {
-  source   = "./modules/entra"
+module "entra_service_principal" {
+  source   = "./modules/entra/service-principal"
   workload = var.workload
+}
+
+module "entra_users" {
+  source                  = "./modules/entra/users"
+  tenant_domain           = var.entraid_tenant_domain
+  data_scientist_username = var.entraid_data_scientist_username
+  data_scientist_password = var.entraid_data_scientist_password
 }
 
 module "data_lake" {
@@ -79,7 +86,7 @@ module "data_lake" {
   resource_group_name                    = azurerm_resource_group.default.name
   location                               = azurerm_resource_group.default.location
   ip_network_rules                       = local.allowed_ip_addresses
-  datastores_service_principal_object_id = module.entra.service_principal_object_id
+  datastores_service_principal_object_id = module.entra_service_principal.service_principal_object_id
 }
 
 module "mssql" {
@@ -96,6 +103,8 @@ module "mssql" {
   localfw_end_ip_address   = var.allowed_ip_address
 }
 
+
+
 module "ml_workspace" {
   source              = "./modules/ml/workspace"
   workload            = "${var.workload}${local.affix}"
@@ -108,19 +117,6 @@ module "ml_workspace" {
   container_registry_id   = module.cr.id
 
   data_lake_id = module.data_lake.id
-}
-
-module "ml_compute" {
-  source   = "./modules/ml/compute"
-  count    = var.mlw_instance_create_flag ? 1 : 0
-  location = azurerm_resource_group.default.location
-
-  machine_learning_workspace_id = module.ml_workspace.aml_workspace_id
-  instance_vm_size              = var.mlw_instance_vm_size
-  ssh_public_key                = local.ssh_public_key
-  training_subnet_id            = module.vnet.training_subnet_id
-
-  depends_on = [module.private_endpoints]
 }
 
 module "private_endpoints" {
@@ -138,6 +134,19 @@ module "private_endpoints" {
   sql_server_id                = module.mssql.server_id
 }
 
+module "ml_compute" {
+  source   = "./modules/ml/compute"
+  count    = var.mlw_instance_create_flag ? 1 : 0
+  location = azurerm_resource_group.default.location
+
+  machine_learning_workspace_id = module.ml_workspace.aml_workspace_id
+  instance_vm_size              = var.mlw_instance_vm_size
+  ssh_public_key                = local.ssh_public_key
+  training_subnet_id            = module.vnet.training_subnet_id
+
+  depends_on = [module.private_endpoints]
+}
+
 module "vm" {
   source              = "./modules/vm"
   workload            = var.workload
@@ -146,4 +155,10 @@ module "vm" {
   size                = var.vm_size
   image_sku           = var.vm_image_sku
   subnet              = module.vnet.bastion_subnet_id
+}
+
+module "datascientist_permissions" {
+  source            = "./modules/permissions"
+  user_object_id    = module.entra_users.data_scientist_user_object_id
+  resource_group_id = azurerm_resource_group.default.id
 }

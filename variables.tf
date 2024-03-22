@@ -50,3 +50,18 @@ variable "vm_size" {
 variable "vm_image_sku" {
   type = string
 }
+
+
+### Entra ID ###
+variable "entraid_tenant_domain" {
+  type = string
+}
+
+variable "entraid_data_scientist_username" {
+  type = string
+}
+
+variable "entraid_data_scientist_password" {
+  type      = string
+  sensitive = true
+}
