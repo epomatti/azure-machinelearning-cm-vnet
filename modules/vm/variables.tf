@@ -21,3 +21,8 @@ variable "size" {
 variable "image_sku" {
   type = string
 }
+
+variable "password" {
+  type      = string
+  sensitive = true
+}

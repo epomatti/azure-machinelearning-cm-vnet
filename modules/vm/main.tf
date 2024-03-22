@@ -28,7 +28,7 @@ resource "azurerm_windows_virtual_machine" "windows11" {
   location              = var.location
   size                  = var.size
   admin_username        = "winuser"
-  admin_password        = "P@ssw0rd.123"
+  admin_password        = var.password
   network_interface_ids = [azurerm_network_interface.windows11.id]
 
   identity {

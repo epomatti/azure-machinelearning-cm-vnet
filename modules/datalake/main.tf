@@ -1,14 +1,15 @@
 data "azuread_client_config" "current" {}
 
 resource "azurerm_storage_account" "lake" {
-  name                      = "dls${var.workload}"
-  resource_group_name       = var.resource_group_name
-  location                  = var.location
-  account_tier              = "Standard"
-  account_replication_type  = "LRS"
-  account_kind              = "StorageV2"
-  enable_https_traffic_only = true
-  min_tls_version           = "TLS1_2"
+  name                            = "dls${var.workload}"
+  resource_group_name             = var.resource_group_name
+  location                        = var.location
+  account_tier                    = "Standard"
+  account_replication_type        = "LRS"
+  account_kind                    = "StorageV2"
+  enable_https_traffic_only       = true
+  allow_nested_items_to_be_public = false
+  min_tls_version                 = "TLS1_2"
 
   # Hierarchical namespace
   is_hns_enabled = true

@@ -20,7 +20,7 @@ resource "azurerm_machine_learning_workspace" "default" {
 
   managed_network {
     # AllowInternetOutbound, AllowOnlyApprovedOutbound
-    isolation_mode = "AllowOnlyApprovedOutbound"
+    isolation_mode = "AllowInternetOutbound"
   }
 
   identity {
