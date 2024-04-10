@@ -97,6 +97,7 @@ resource "azurerm_private_dns_zone_virtual_network_link" "dfs" {
 }
 
 resource "azurerm_private_dns_zone_virtual_network_link" "sql_server" {
+  count                 = var.mlw_mssql_create_flag ? 1 : 0
   name                  = "sqlserver-link"
   resource_group_name   = var.resource_group_name
   private_dns_zone_name = azurerm_private_dns_zone.sql_server.name
@@ -274,6 +275,7 @@ resource "azurerm_private_endpoint" "lake_blob" {
 }
 
 resource "azurerm_private_endpoint" "sql_server" {
+  count               = var.mlw_mssql_create_flag ? 1 : 0
   name                = "pe-sqlserver"
   location            = var.location
   resource_group_name = var.resource_group_name

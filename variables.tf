@@ -25,7 +25,24 @@ variable "mlw_instance_ssh_public_key_rel_path" {
   type = string
 }
 
+### AKS ###
+variable "mlw_aks_create_flag" {
+  type = bool
+}
+
+variable "mlw_aks_node_count" {
+  type = number
+}
+
+variable "mlw_aks_vm_size" {
+  type = string
+}
+
 ### MSSQL ###
+variable "mlw_mssql_create_flag" {
+  type = bool
+}
+
 variable "mssql_sku" {
   type = string
 }

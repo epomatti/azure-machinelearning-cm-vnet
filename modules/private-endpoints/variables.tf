@@ -34,6 +34,10 @@ variable "data_lake_storage_account_id" {
   type = string
 }
 
+variable "mlw_mssql_create_flag" {
+  type = bool
+}
+
 variable "sql_server_id" {
   type = string
 }

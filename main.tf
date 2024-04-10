@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.96.0"
+      version = "3.98.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
@@ -27,6 +27,16 @@ locals {
 resource "azurerm_resource_group" "default" {
   name     = "rg-${var.workload}-${local.affix}"
   location = var.location
+}
+
+resource "azurerm_resource_group" "private_endpoints" {
+  name     = "rg-${var.workload}-pe-${local.affix}"
+  location = var.location
+}
+
+resource "azurerm_private_dns_zone" "default" {
+  name                = "litware.intranet"
+  resource_group_name = azurerm_resource_group.default.name
 }
 
 module "vnet" {
@@ -90,6 +100,7 @@ module "data_lake" {
 }
 
 module "mssql" {
+  count               = var.mlw_mssql_create_flag ? 1 : 0
   source              = "./modules/mssql"
   workload            = var.workload
   resource_group_name = azurerm_resource_group.default.name
@@ -121,7 +132,7 @@ module "ml_workspace" {
 
 module "private_endpoints" {
   source                      = "./modules/private-endpoints"
-  resource_group_name         = azurerm_resource_group.default.name
+  resource_group_name         = azurerm_resource_group.private_endpoints.name
   location                    = azurerm_resource_group.default.location
   vnet_id                     = module.vnet.vnet_id
   private_endpoints_subnet_id = module.vnet.private_endpoints_subnet_id
@@ -131,7 +142,9 @@ module "private_endpoints" {
   keyvault_id                  = module.keyvault.key_vault_id
   aml_storage_account_id       = module.storage.storage_account_id
   data_lake_storage_account_id = module.data_lake.id
-  sql_server_id                = module.mssql.server_id
+
+  mlw_mssql_create_flag = var.mlw_mssql_create_flag
+  sql_server_id         = var.mlw_mssql_create_flag == true ? module.mssql[0].server_id : null
 }
 
 module "ml_compute" {
@@ -145,6 +158,22 @@ module "ml_compute" {
   training_subnet_id            = module.vnet.training_subnet_id
 
   depends_on = [module.private_endpoints]
+}
+
+module "ml_aks" {
+  source              = "./modules/ml/aks"
+  count               = var.mlw_aks_create_flag ? 1 : 0
+  workload            = var.workload
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
+  vnet_id             = module.vnet.vnet_id
+
+  machine_learning_workspace_id = module.ml_workspace.aml_workspace_id
+  scoring_subnet_id             = module.vnet.scoring_subnet_id
+  private_dns_zone_id           = azurerm_private_dns_zone.default.id
+  node_count                    = var.mlw_aks_node_count
+  vm_size                       = var.mlw_aks_vm_size
+  container_registry_id         = module.cr.id
 }
 
 module "vm" {
