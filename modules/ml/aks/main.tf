@@ -10,6 +10,12 @@ resource "azurerm_role_assignment" "network_contributor" {
   principal_id         = azurerm_user_assigned_identity.aks.principal_id
 }
 
+resource "azurerm_role_assignment" "private_dns_contributor" {
+  scope                = var.private_dns_zone_id
+  role_definition_name = "Contributor"
+  principal_id         = azurerm_user_assigned_identity.aks.principal_id
+}
+
 resource "azurerm_kubernetes_cluster" "default" {
   name                                = "aks-${var.workload}"
   location                            = var.location
@@ -36,19 +42,24 @@ resource "azurerm_kubernetes_cluster" "default" {
 
     # This will not integrate with the existing VNET
     # however, it must not overlap with an existing Subnet
-    # service_cidr   = "10.0.90.0/24"
-    # dns_service_ip = "10.0.90.10"
+    service_cidr   = "192.168.90.0/24"
+    dns_service_ip = "192.168.90.10"
   }
 
   api_server_access_profile {
     vnet_integration_enabled = true
-    subnet_id                = var.scoring_subnet_id
+    subnet_id                = var.scoring_aks_api_subnet_id
   }
 
   identity {
     type         = "UserAssigned"
     identity_ids = [azurerm_user_assigned_identity.aks.id]
   }
+
+  depends_on = [
+    azurerm_role_assignment.network_contributor,
+    azurerm_role_assignment.private_dns_contributor
+  ]
 }
 
 resource "azurerm_machine_learning_inference_cluster" "default" {

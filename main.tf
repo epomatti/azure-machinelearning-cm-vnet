@@ -35,7 +35,7 @@ resource "azurerm_resource_group" "private_endpoints" {
 }
 
 resource "azurerm_private_dns_zone" "default" {
-  name                = "litware.intranet"
+  name                = "private.${var.location}.azmk8s.io"
   resource_group_name = azurerm_resource_group.default.name
 }
 
@@ -114,8 +114,6 @@ module "mssql" {
   localfw_end_ip_address   = var.allowed_ip_address
 }
 
-
-
 module "ml_workspace" {
   source              = "./modules/ml/workspace"
   workload            = "${var.workload}${local.affix}"
@@ -170,6 +168,7 @@ module "ml_aks" {
 
   machine_learning_workspace_id = module.ml_workspace.aml_workspace_id
   scoring_subnet_id             = module.vnet.scoring_subnet_id
+  scoring_aks_api_subnet_id     = module.vnet.scoring_aks_api_subnet_id
   private_dns_zone_id           = azurerm_private_dns_zone.default.id
   node_count                    = var.mlw_aks_node_count
   vm_size                       = var.mlw_aks_vm_size

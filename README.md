@@ -36,14 +36,13 @@ Manually create the datastores in AML and run the test notebooks.
 
 Create the AML compute and other resources by changing the appropriate flags:
 
+> 💡 Follow the [documentation][2] steps to enable AKS VNET integration, if not yet done so.
+
 ```terraform
 mlw_instance_create_flag = true
 mlw_aks_create_flag      = true
 mlw_mssql_create_flag    = true
 ```
-
-Follow the [documentation][2] steps to enable AKS VNET integration, if not yet done so.
-
 
 ---
 

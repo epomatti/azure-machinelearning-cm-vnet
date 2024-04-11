@@ -33,6 +33,13 @@ resource "azurerm_subnet" "scoring" {
   address_prefixes     = ["10.0.90.0/24"]
 }
 
+resource "azurerm_subnet" "scoring_aks_api" {
+  name                 = "scoring-aks-api"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.default.name
+  address_prefixes     = ["10.0.95.0/24"]
+}
+
 ### Default NSG ###
 resource "azurerm_network_security_group" "default" {
   name                = "nsg-default"
@@ -52,6 +59,11 @@ resource "azurerm_subnet_network_security_group_association" "training" {
 
 resource "azurerm_subnet_network_security_group_association" "scoring" {
   subnet_id                 = azurerm_subnet.scoring.id
+  network_security_group_id = azurerm_network_security_group.default.id
+}
+
+resource "azurerm_subnet_network_security_group_association" "scoring_aks_api" {
+  subnet_id                 = azurerm_subnet.scoring_aks_api.id
   network_security_group_id = azurerm_network_security_group.default.id
 }
 
@@ -80,3 +92,6 @@ resource "azurerm_network_security_rule" "allow_inbound_rdp_bastion" {
   resource_group_name         = var.resource_group_name
   network_security_group_name = azurerm_network_security_group.bastion.name
 }
+
+# TODO: Add outbound restrictions
+# TODO: Add outbound proxy
