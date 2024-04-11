@@ -12,8 +12,10 @@ Create the variables file:
 cp config/template.tfvars .auto.tfvars
 ```
 
-👉 Set your IP address in the `allowed_ip_address` variable.
-👉 Set your the Entra ID tenant in the  `entraid_tenant_domain` variable.
+Configuration:
+
+1. Set your IP address in the `allowed_ip_address` variable.
+2. Set your the Entra ID tenant in the  `entraid_tenant_domain` variable.
 
 Generate a key pair to manage instances with SSH:
 
