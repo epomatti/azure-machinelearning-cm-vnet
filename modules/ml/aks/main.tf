@@ -1,27 +1,8 @@
-resource "azurerm_user_assigned_identity" "aks" {
-  name                = "aks-cluster-${var.workload}-identity"
-  location            = var.location
-  resource_group_name = var.resource_group_name
-}
-
-resource "azurerm_role_assignment" "network_contributor" {
-  scope                = var.vnet_id
-  role_definition_name = "Network Contributor"
-  principal_id         = azurerm_user_assigned_identity.aks.principal_id
-}
-
-resource "azurerm_role_assignment" "private_dns_contributor" {
-  scope                = var.private_dns_zone_id
-  role_definition_name = "Contributor"
-  principal_id         = azurerm_user_assigned_identity.aks.principal_id
-}
-
 resource "azurerm_kubernetes_cluster" "default" {
   name                                = "aks-${var.workload}"
   location                            = var.location
   resource_group_name                 = var.resource_group_name
   node_resource_group                 = "rg-aks-${var.workload}"
-  private_dns_zone_id                 = var.private_dns_zone_id
   dns_prefix_private_cluster          = "private"
   private_cluster_enabled             = true
   private_cluster_public_fqdn_enabled = false
@@ -46,20 +27,16 @@ resource "azurerm_kubernetes_cluster" "default" {
     dns_service_ip = "192.168.90.10"
   }
 
+  # TODO: Implement this
   api_server_access_profile {
-    vnet_integration_enabled = true
-    subnet_id                = var.scoring_aks_api_subnet_id
+    vnet_integration_enabled = false
+    # subnet_id                = var.scoring_aks_api_subnet_id
   }
 
   identity {
-    type         = "UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.aks.id]
+    # AML doesn't support User Assigned Identities
+    type = "SystemAssigned"
   }
-
-  depends_on = [
-    azurerm_role_assignment.network_contributor,
-    azurerm_role_assignment.private_dns_contributor
-  ]
 }
 
 resource "azurerm_machine_learning_inference_cluster" "default" {
