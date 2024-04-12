@@ -4,6 +4,9 @@
     "dictionaryDefinitions": [],
     "dictionaries": [],
     "words": [
+        "azureuser",
+        "entraid",
+        "nginx",
         "VNET"
     ],
     "ignoreWords": [],
