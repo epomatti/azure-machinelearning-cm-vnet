@@ -140,7 +140,7 @@ resource "azurerm_subnet_network_security_group_association" "training" {
 }
 
 resource "azurerm_network_security_rule" "allow_vnet_outbound" {
-  name                        = "AllowVNET"
+  name                        = "AllowVNETOnly"
   priority                    = 100
   direction                   = "Outbound"
   access                      = "Allow"
@@ -154,7 +154,7 @@ resource "azurerm_network_security_rule" "allow_vnet_outbound" {
 }
 
 resource "azurerm_network_security_rule" "block_internet_outbound" {
-  name                        = "DenyInternetOutbound"
+  name                        = "DenyAllOutbound"
   priority                    = 200
   direction                   = "Outbound"
   access                      = "Deny"
