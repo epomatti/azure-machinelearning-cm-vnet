@@ -34,10 +34,6 @@ variable "scoring_aks_api_subnet_id" {
   type = string
 }
 
-variable "private_dns_zone_id" {
-  type = string
-}
-
 variable "container_registry_id" {
   type = string
 }

@@ -9,6 +9,16 @@ resource "azurerm_virtual_network" "default" {
   resource_group_name = var.resource_group_name
 }
 
+resource "azurerm_private_dns_zone_virtual_network_link" "private_litware" {
+  name                  = "private-litware"
+  resource_group_name   = var.resource_group_name
+  private_dns_zone_name = var.private_dns_zone_name
+  virtual_network_id    = azurerm_virtual_network.default.id
+  registration_enabled  = true
+}
+
+### Subnets ###
+
 resource "azurerm_subnet" "bastion" {
   name                 = "bastion"
   resource_group_name  = var.resource_group_name

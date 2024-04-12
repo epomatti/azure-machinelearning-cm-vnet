@@ -21,7 +21,7 @@ mlw_aks_vm_size     = "Standard_D2as_V4"
 
 # Proxy
 vm_proxy_create_flag = false
-vm_proxy_vm_size     = "Standard_B2pts_v2"
+vm_proxy_vm_size     = "Standard_B2ls_v2"
 
 # MSSQL
 mssql_create_flag          = false

@@ -17,3 +17,7 @@ variable "subnet_id" {
 variable "size" {
   type = string
 }
+
+variable "zone_name" {
+  type = string
+}

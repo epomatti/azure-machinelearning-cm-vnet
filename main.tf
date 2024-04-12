@@ -34,8 +34,8 @@ resource "azurerm_resource_group" "private_endpoints" {
   location = var.location
 }
 
-resource "azurerm_private_dns_zone" "default" {
-  name                = "private.${var.location}.azmk8s.io"
+resource "azurerm_private_dns_zone" "litware" {
+  name                = "private.litware.com"
   resource_group_name = azurerm_resource_group.default.name
 }
 
@@ -47,6 +47,7 @@ module "vnet" {
   allowed_ip_address                      = var.allowed_ip_address
   training_nsg_source_address_prefix      = var.vnet_training_nsg_source_address_prefix
   training_nsg_destination_address_prefix = var.vnet_training_nsg_destination_address_prefix
+  private_dns_zone_name                   = azurerm_private_dns_zone.litware.name
 }
 
 module "monitor" {
@@ -171,7 +172,6 @@ module "ml_aks" {
   machine_learning_workspace_id = module.ml_workspace.aml_workspace_id
   scoring_subnet_id             = module.vnet.scoring_subnet_id
   scoring_aks_api_subnet_id     = module.vnet.scoring_aks_api_subnet_id
-  private_dns_zone_id           = azurerm_private_dns_zone.default.id
   node_count                    = var.mlw_aks_node_count
   vm_size                       = var.mlw_aks_vm_size
   container_registry_id         = module.cr.id
@@ -185,6 +185,7 @@ module "proxy" {
   location            = azurerm_resource_group.default.location
   size                = var.vm_proxy_vm_size
   subnet_id           = module.vnet.proxy_subnet_id
+  zone_name           = azurerm_private_dns_zone.litware.name
 }
 
 module "vm" {

@@ -69,10 +69,30 @@ ssh -i keys/ssh_key azureuser@<public-ip>
 
 Squid will already be installed via `cloud-init`. If you need to make changes, check the [official docs][5].
 
+Set some hostname parameters:
+
+```
+visible_hostname squid.private.litware.com
+hostname_aliases squid.private.litware.com
+```
+
+Change the `http_access` setting to allow all connections:
+
+```
+# http_access deny !Safe_ports
+http_access allow all
+```
+
+Restart the service:
+
+```sh
+sudo systemctl restart squid.service
+```
+
 Testing with default configuration:
 
 ```sh
-curl -x "http://127.0.0.1:3128" "https://example.com/"
+curl -x "http://squid.private.litware.com:3128" "https://example.com/"
 ```
 
 ### NGINX

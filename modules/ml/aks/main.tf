@@ -1,3 +1,8 @@
+# resource "azurerm_private_dns_zone" "default" {
+#   name                = "private.${var.location}.azmk8s.io"
+#   resource_group_name = var.resource_group_name
+# }
+
 resource "azurerm_kubernetes_cluster" "default" {
   name                                = "aks-${var.workload}"
   location                            = var.location
