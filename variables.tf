@@ -53,7 +53,7 @@ variable "vm_proxy_vm_size" {
 }
 
 ### MSSQL ###
-variable "mlw_mssql_create_flag" {
+variable "mssql_create_flag" {
   type = bool
 }
 

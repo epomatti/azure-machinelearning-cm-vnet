@@ -101,7 +101,7 @@ module "data_lake" {
 }
 
 module "mssql" {
-  count               = var.mlw_mssql_create_flag ? 1 : 0
+  count               = var.mssql_create_flag ? 1 : 0
   source              = "./modules/mssql"
   workload            = var.workload
   resource_group_name = azurerm_resource_group.default.name
@@ -142,8 +142,8 @@ module "private_endpoints" {
   aml_storage_account_id       = module.storage.storage_account_id
   data_lake_storage_account_id = module.data_lake.id
 
-  mlw_mssql_create_flag = var.mlw_mssql_create_flag
-  sql_server_id         = var.mlw_mssql_create_flag == true ? module.mssql[0].server_id : null
+  mlw_mssql_create_flag = var.mssql_create_flag
+  sql_server_id         = var.mssql_create_flag == true ? module.mssql[0].server_id : null
 }
 
 module "ml_compute" {

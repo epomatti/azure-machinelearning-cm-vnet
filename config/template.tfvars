@@ -23,7 +23,7 @@ vm_proxy_create_flag = false
 vm_proxy_vm_size     = "Standard_B2pts_v2"
 
 # MSSQL
-mlw_mssql_create_flag      = false
+mssql_create_flag          = false
 mssql_sku                  = "Basic"
 mssql_max_size_gb          = 2
 mssql_admin_login          = "sqladmin"
