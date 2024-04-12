@@ -62,7 +62,7 @@ Squid will already be installed via `cloud-init`. If you need to make changes, c
 Testing with default configuration:
 
 ```sh
-curl -x "http://127.0.0.1:3128" "https://github.com/"
+curl -x "http://127.0.0.1:3128" "https://example.com/"
 ```
 
 ### NGINX
@@ -84,7 +84,7 @@ I've used [this article][3] as reference to setup the forward proxy server on NG
 The forward proxy service should be available at port `8888`.
 
 ```sh
-curl -x "http://127.0.0.1:8888" "https://github.com/"
+curl -x "http://127.0.0.1:8888" "https://example.com/"
 ```
 
 ---
