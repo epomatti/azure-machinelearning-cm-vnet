@@ -12,6 +12,11 @@ variable "allowed_ip_address" {
   type = string
 }
 
+# VNET
+variable "vnet_training_nsg_destination_address_prefix" {
+  type = string
+}
+
 ### AML ###
 variable "mlw_instance_create_flag" {
   type = bool

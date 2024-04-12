@@ -5,6 +5,9 @@ workload = "litware"
 # The IPv4 from where you'll access the resources
 allowed_ip_address = ""
 
+# VNET
+vnet_training_nsg_destination_address_prefix = "Internet" # Internet, VirtualNetwork
+
 # Machine Learning - Training
 mlw_instance_create_flag             = false
 mlw_instance_vm_size                 = "STANDARD_D2AS_V4"

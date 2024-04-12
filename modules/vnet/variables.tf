@@ -13,3 +13,7 @@ variable "resource_group_name" {
 variable "allowed_ip_address" {
   type = string
 }
+
+variable "training_nsg_destination_address_prefix" {
+  type = string
+}

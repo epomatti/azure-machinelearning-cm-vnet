@@ -40,11 +40,12 @@ resource "azurerm_private_dns_zone" "default" {
 }
 
 module "vnet" {
-  source              = "./modules/vnet"
-  workload            = var.workload
-  resource_group_name = azurerm_resource_group.default.name
-  location            = azurerm_resource_group.default.location
-  allowed_ip_address  = var.allowed_ip_address
+  source                                  = "./modules/vnet"
+  workload                                = var.workload
+  resource_group_name                     = azurerm_resource_group.default.name
+  location                                = azurerm_resource_group.default.location
+  allowed_ip_address                      = var.allowed_ip_address
+  training_nsg_destination_address_prefix = var.vnet_training_nsg_destination_address_prefix
 }
 
 module "monitor" {
