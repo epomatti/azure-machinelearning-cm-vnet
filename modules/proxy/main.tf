@@ -58,4 +58,8 @@ resource "azurerm_linux_virtual_machine" "main" {
     sku       = "22_04-lts-gen2"
     version   = "latest"
   }
+
+  lifecycle {
+    ignore_changes = [custom_data]
+  }
 }

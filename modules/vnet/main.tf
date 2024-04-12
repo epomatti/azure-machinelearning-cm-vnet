@@ -147,8 +147,8 @@ resource "azurerm_network_security_rule" "allow_vnet_outbound" {
   protocol                    = "*"
   source_port_range           = "*"
   destination_port_range      = "*"
-  source_address_prefix       = "*"
-  destination_address_prefix  = local.vnet_address_space
+  source_address_prefix       = "VirtualNetwork"
+  destination_address_prefix  = "VirtualNetwork"
   resource_group_name         = var.resource_group_name
   network_security_group_name = azurerm_network_security_group.training.name
 }
