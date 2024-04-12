@@ -14,6 +14,10 @@ variable "allowed_ip_address" {
   type = string
 }
 
+variable "training_nsg_source_address_prefix" {
+  type = string
+}
+
 variable "training_nsg_destination_address_prefix" {
   type = string
 }

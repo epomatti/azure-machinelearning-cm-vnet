@@ -47,6 +47,16 @@ mlw_mssql_create_flag    = true
 vm_proxy_create_flag     = true
 ```
 
+## Container Registry
+
+Extra configuration is required when using an Container Registry with private endpoints.
+
+After creating the compute node, follow the [documentation][6] to enable docker builds in AML:
+
+```sh
+az ml workspace update --name myworkspace --resource-group myresourcegroup --image-build-compute mycomputecluster
+```
+
 ## Forward Proxy
 
 ### Squid
@@ -102,3 +112,4 @@ terraform destroy -auto-approve
 [3]: https://www.baeldung.com/nginx-forward-proxy
 [4]: https://serverfault.com/a/1090581/560797
 [5]: https://ubuntu.com/server/docs/how-to-install-a-squid-server
+[6]: https://docs.microsoft.com/azure/machine-learning/how-to-secure-workspace-vnet#enable-azure-container-registry-acr

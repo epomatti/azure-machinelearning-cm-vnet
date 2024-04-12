@@ -34,7 +34,7 @@ resource "azurerm_machine_learning_workspace" "default" {
 
   depends_on = [
     azurerm_role_assignment.key_vault,
-    azurerm_role_assignment.key_vault_secrets,
+    azurerm_role_assignment.key_vault_administrator,
     azurerm_role_assignment.storage,
     azurerm_role_assignment.storage_contributor,
     azurerm_role_assignment.application_insights,
@@ -51,9 +51,9 @@ resource "azurerm_role_assignment" "key_vault" {
 }
 
 # Required for compute SSH keys
-resource "azurerm_role_assignment" "key_vault_secrets" {
+resource "azurerm_role_assignment" "key_vault_administrator" {
   scope                = var.key_vault_id
-  role_definition_name = "Key Vault Secrets Officer"
+  role_definition_name = "Key Vault Administrator"
   principal_id         = azurerm_user_assigned_identity.mlw.principal_id
 }
 

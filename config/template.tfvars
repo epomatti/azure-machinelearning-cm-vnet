@@ -6,6 +6,7 @@ workload = "litware"
 allowed_ip_address = ""
 
 # VNET
+vnet_training_nsg_source_address_prefix      = "*"        # *, VirtualNetwork
 vnet_training_nsg_destination_address_prefix = "Internet" # Internet, VirtualNetwork
 
 # Machine Learning - Training

@@ -13,6 +13,10 @@ variable "allowed_ip_address" {
 }
 
 # VNET
+variable "vnet_training_nsg_source_address_prefix" {
+  type = string
+}
+
 variable "vnet_training_nsg_destination_address_prefix" {
   type = string
 }
