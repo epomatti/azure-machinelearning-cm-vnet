@@ -15,6 +15,10 @@ mlw_aks_create_flag = false
 mlw_aks_node_count  = 1
 mlw_aks_vm_size     = "Standard_D2as_V4"
 
+# Proxy
+vm_proxy_create_flag = false
+vm_proxy_vm_size     = "Standard_B2pts_v2"
+
 # MSSQL
 mlw_mssql_create_flag      = false
 mssql_sku                  = "Basic"

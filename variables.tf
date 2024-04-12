@@ -38,6 +38,15 @@ variable "mlw_aks_vm_size" {
   type = string
 }
 
+### Proxy ###
+variable "vm_proxy_create_flag" {
+  type = bool
+}
+
+variable "vm_proxy_vm_size" {
+  type = string
+}
+
 ### MSSQL ###
 variable "mlw_mssql_create_flag" {
   type = bool

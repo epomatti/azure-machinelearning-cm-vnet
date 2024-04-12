@@ -175,6 +175,16 @@ module "ml_aks" {
   container_registry_id         = module.cr.id
 }
 
+module "proxy" {
+  count               = var.vm_proxy_create_flag ? 1 : 0
+  source              = "./modules/proxy"
+  workload            = var.workload
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
+  size                = var.vm_proxy_vm_size
+  subnet_id           = module.vnet.proxy_subnet_id
+}
+
 module "vm" {
   source              = "./modules/vm"
   workload            = var.workload

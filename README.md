@@ -46,6 +46,12 @@ mlw_aks_create_flag      = true
 mlw_mssql_create_flag    = true
 ```
 
+## Proxy
+
+```sh
+ssh -i keys/ssh_key proxy@<public-ip>
+```
+
 ---
 
 ### Clean-up

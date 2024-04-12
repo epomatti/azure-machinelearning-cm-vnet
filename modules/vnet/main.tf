@@ -1,6 +1,10 @@
+locals {
+  vnet_address_space = "10.0.0.0/16"
+}
+
 resource "azurerm_virtual_network" "default" {
   name                = "vnet-${var.workload}"
-  address_space       = ["10.0.0.0/16"]
+  address_space       = [local.vnet_address_space]
   location            = var.location
   resource_group_name = var.resource_group_name
 }
@@ -40,6 +44,13 @@ resource "azurerm_subnet" "scoring_aks_api" {
   address_prefixes     = ["10.0.95.0/24"]
 }
 
+resource "azurerm_subnet" "proxy" {
+  name                 = "proxy"
+  resource_group_name  = var.resource_group_name
+  virtual_network_name = azurerm_virtual_network.default.name
+  address_prefixes     = ["10.0.200.0/24"]
+}
+
 ### Default NSG ###
 resource "azurerm_network_security_group" "default" {
   name                = "nsg-default"
@@ -49,11 +60,6 @@ resource "azurerm_network_security_group" "default" {
 
 resource "azurerm_subnet_network_security_group_association" "private_endpoints" {
   subnet_id                 = azurerm_subnet.private_endpoints.id
-  network_security_group_id = azurerm_network_security_group.default.id
-}
-
-resource "azurerm_subnet_network_security_group_association" "training" {
-  subnet_id                 = azurerm_subnet.training.id
   network_security_group_id = azurerm_network_security_group.default.id
 }
 
@@ -94,4 +100,69 @@ resource "azurerm_network_security_rule" "allow_inbound_rdp_bastion" {
 }
 
 # TODO: Add outbound restrictions
-# TODO: Add outbound proxy
+
+### Proxy NSG ###
+resource "azurerm_network_security_group" "proxy" {
+  name                = "nsg-proxy"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+}
+
+resource "azurerm_subnet_network_security_group_association" "proxy" {
+  subnet_id                 = azurerm_subnet.proxy.id
+  network_security_group_id = azurerm_network_security_group.proxy.id
+}
+
+resource "azurerm_network_security_rule" "allow_inbound_ssh_proxy" {
+  name                        = "AllowInboundSSH"
+  priority                    = 100
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "22"
+  source_address_prefix       = "${var.allowed_ip_address}/32"
+  destination_address_prefix  = "*"
+  resource_group_name         = var.resource_group_name
+  network_security_group_name = azurerm_network_security_group.proxy.name
+}
+
+### Training NSG ###
+resource "azurerm_network_security_group" "training" {
+  name                = "nsg-training"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+}
+
+resource "azurerm_subnet_network_security_group_association" "training" {
+  subnet_id                 = azurerm_subnet.training.id
+  network_security_group_id = azurerm_network_security_group.training.id
+}
+
+resource "azurerm_network_security_rule" "allow_vnet_outbound" {
+  name                        = "AllowVNET"
+  priority                    = 100
+  direction                   = "Outbound"
+  access                      = "Allow"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "*"
+  source_address_prefix       = "*"
+  destination_address_prefix  = local.vnet_address_space
+  resource_group_name         = var.resource_group_name
+  network_security_group_name = azurerm_network_security_group.training.name
+}
+
+resource "azurerm_network_security_rule" "block_internet_outbound" {
+  name                        = "DenyInternetOutbound"
+  priority                    = 200
+  direction                   = "Outbound"
+  access                      = "Deny"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "*"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = var.resource_group_name
+  network_security_group_name = azurerm_network_security_group.training.name
+}
