@@ -149,6 +149,20 @@ resource "azurerm_subnet_network_security_group_association" "training" {
   network_security_group_id = azurerm_network_security_group.training.id
 }
 
+resource "azurerm_network_security_rule" "allow_inbound_ssh_compute_instances" {
+  name                        = "AllowInboundSSH"
+  priority                    = 100
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "22"
+  source_address_prefix       = "${var.allowed_ip_address}/32"
+  destination_address_prefix  = "*"
+  resource_group_name         = var.resource_group_name
+  network_security_group_name = azurerm_network_security_group.training.name
+}
+
 resource "azurerm_network_security_rule" "allow_vnet_outbound" {
   name                        = "AllowVNETOnly"
   priority                    = 100

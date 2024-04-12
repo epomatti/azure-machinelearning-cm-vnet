@@ -1,18 +1,6 @@
 #!/bin/bash
 
-set -e
+proxy_domain=squid.private.litware.com
 
-# This script installs a pip package in compute instance azureml_py38 environment.
-
-vm-proxy
-
-squid.private.litware.com
-
-sudo -u azureuser -i <<'EOF'
-
-PACKAGE=numpy
-ENVIRONMENT=azureml_py38 
-conda activate "$ENVIRONMENT"
-pip install "$PACKAGE"
-conda deactivate
-EOF
+echo "export HTTP_PROXY=$proxy_domain" >> ~/.bashrc
+echo "export HTTPS_PROXY=$proxy_domain" >> ~/.bashrc 

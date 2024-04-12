@@ -47,6 +47,8 @@ mlw_mssql_create_flag    = true
 vm_proxy_create_flag     = true
 ```
 
+Proxy connection will be configured on init following the [proxy documentation][7].
+
 ## Container Registry
 
 Extra configuration is required when using an Container Registry with private endpoints.
@@ -133,3 +135,4 @@ terraform destroy -auto-approve
 [4]: https://serverfault.com/a/1090581/560797
 [5]: https://ubuntu.com/server/docs/how-to-install-a-squid-server
 [6]: https://docs.microsoft.com/azure/machine-learning/how-to-secure-workspace-vnet#enable-azure-container-registry-acr
+[7]: https://learn.microsoft.com/en-us/azure/machine-learning/how-to-secure-workspace-vnet?view=azureml-api-2&tabs=required%2Cpe%2Ccli#required-public-internet-access
