@@ -49,6 +49,11 @@ vm_proxy_create_flag     = true
 
 Proxy connection will be configured on init following the [proxy documentation][7].
 
+```sh
+echo "$http_proxy"
+echo "$https_proxy"
+```
+
 ## Container Registry
 
 Extra configuration is required when using an Container Registry with private endpoints.
