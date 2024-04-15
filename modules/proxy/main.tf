@@ -69,5 +69,5 @@ resource "azurerm_private_dns_cname_record" "squid" {
   zone_name           = var.zone_name
   resource_group_name = var.resource_group_name
   ttl                 = 300
-  record              = azurerm_linux_virtual_machine.main.name
+  record              = "${azurerm_linux_virtual_machine.main.name}.${var.zone_name}"
 }

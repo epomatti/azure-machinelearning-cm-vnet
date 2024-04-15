@@ -47,6 +47,15 @@ mlw_mssql_create_flag    = true
 vm_proxy_create_flag     = true
 ```
 
+```sh
+#!/bin/bash
+
+proxy_domain=squid.private.litware.com
+
+sudo echo "export HTTP_PROXY=$proxy_domain" >> ~/.bashrc
+sudo echo "export HTTPS_PROXY=$proxy_domain" >> ~/.bashrc
+```
+
 Proxy connection will be configured on init following the [proxy documentation][7].
 
 ```sh
