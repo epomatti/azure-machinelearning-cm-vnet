@@ -76,6 +76,8 @@ ssh -i keys/ssh_key azureuser@<public-ip>
 
 Squid will already be installed via `cloud-init`. If you need to make changes, check the [official docs][5].
 
+Configuration can be set in file `/etc/squid/squid.conf`.
+
 Set some hostname parameters:
 
 ```
