@@ -100,7 +100,11 @@ variable "entraid_data_scientist_username" {
   type = string
 }
 
-variable "entraid_data_scientist_password" {
+variable "entraid_administrator_username" {
+  type = string
+}
+
+variable "entraid_user_password" {
   type      = string
   sensitive = true
 }

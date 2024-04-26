@@ -6,7 +6,11 @@ variable "data_scientist_username" {
   type = string
 }
 
-variable "data_scientist_password" {
+variable "administrator_username" {
+  type = string
+}
+
+variable "user_password" {
   type      = string
   sensitive = true
 }

@@ -6,8 +6,8 @@ workload = "litware"
 allowed_ip_address = ""
 
 # VNET
-vnet_training_nsg_source_address_prefix      = "*"        # *, VirtualNetwork
-vnet_training_nsg_destination_address_prefix = "Internet" # Internet, VirtualNetwork
+vnet_training_nsg_source_address_prefix      = "*" # *, VirtualNetwork
+vnet_training_nsg_destination_address_prefix = "*" # *,Internet, VirtualNetwork
 
 # Machine Learning - Training
 mlw_instance_create_flag             = false
@@ -30,12 +30,13 @@ mssql_max_size_gb          = 2
 mssql_admin_login          = "sqladmin"
 mssql_admin_login_password = "P4ssw0rd!2023"
 
-# Virtual Machine
+# Jump Serve Virtual Machine
 vm_size      = "Standard_B4as_v2"
 vm_image_sku = "win11-23h2-ent"
 vm_password  = "P@ssw0rd.123"
 
-# Data Scientist user
-entraid_tenant_domain           = ""
+# Users
+entraid_tenant_domain           = "pomatti.io"
 entraid_data_scientist_username = "datascientist"
-entraid_data_scientist_password = "P4ssw0rd!2023"
+entraid_administrator_username  = "administrator"
+entraid_user_password           = "P4ssw0rd!2023"

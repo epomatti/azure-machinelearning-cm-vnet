@@ -90,7 +90,8 @@ module "entra_users" {
   source                  = "./modules/entra/users"
   tenant_domain           = var.entraid_tenant_domain
   data_scientist_username = var.entraid_data_scientist_username
-  data_scientist_password = var.entraid_data_scientist_password
+  administrator_username  = var.entraid_administrator_username
+  user_password           = var.entraid_user_password
 }
 
 module "data_lake" {
@@ -200,7 +201,14 @@ module "vm" {
 }
 
 module "datascientist_permissions" {
-  source            = "./modules/permissions"
+  source            = "./modules/iam/data-scientist"
   user_object_id    = module.entra_users.data_scientist_user_object_id
   resource_group_id = azurerm_resource_group.default.id
 }
+
+module "administrator_permissions" {
+  source            = "./modules/iam/administrator"
+  user_object_id    = module.entra_users.administrator_user_object_id
+  resource_group_id = azurerm_resource_group.default.id
+}
+

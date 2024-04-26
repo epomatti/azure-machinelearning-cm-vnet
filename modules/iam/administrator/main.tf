@@ -34,11 +34,11 @@ resource "azurerm_role_assignment" "key_vault_administrator" {
   principal_id         = var.user_object_id
 }
 
-resource "azurerm_role_assignment" "network_contributor" {
-  scope                = var.resource_group_id
-  role_definition_name = "Network Contributor"
-  principal_id         = var.user_object_id
-}
+# resource "azurerm_role_assignment" "network_contributor" {
+#   scope                = var.resource_group_id
+#   role_definition_name = "Network Contributor"
+#   principal_id         = var.user_object_id
+# }
 
 resource "azurerm_role_assignment" "user_access_administrator" {
   scope                = var.resource_group_id
