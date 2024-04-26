@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.99.0"
+      version = "3.101.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
@@ -211,4 +211,3 @@ module "administrator_permissions" {
   user_object_id    = module.entra_users.administrator_user_object_id
   resource_group_id = azurerm_resource_group.default.id
 }
-
