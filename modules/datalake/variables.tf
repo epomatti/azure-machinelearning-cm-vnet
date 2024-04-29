@@ -13,7 +13,3 @@ variable "workload" {
 variable "ip_network_rules" {
   type = list(string)
 }
-
-variable "datastores_service_principal_object_id" {
-  type = string
-}

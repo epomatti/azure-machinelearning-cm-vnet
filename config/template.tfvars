@@ -38,5 +38,5 @@ vm_password  = "P@ssw0rd.123"
 # Users
 entraid_tenant_domain           = "pomatti.io"
 entraid_data_scientist_username = "datascientist"
-entraid_administrator_username  = "administrator"
+entraid_administrator_username  = "azureadmin"
 entraid_user_password           = "P4ssw0rd!2023"

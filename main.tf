@@ -22,15 +22,16 @@ locals {
   affix                = random_string.affix.result
   ssh_public_key       = file("${path.module}/${var.mlw_instance_ssh_public_key_rel_path}")
   allowed_ip_addresses = [var.allowed_ip_address]
+  resouce_group_ids    = [azurerm_resource_group.default.id, azurerm_resource_group.private_endpoints.id]
 }
 
 resource "azurerm_resource_group" "default" {
-  name     = "rg-${var.workload}-${local.affix}"
+  name     = "rg-${var.workload}-machinelearning-${local.affix}"
   location = var.location
 }
 
 resource "azurerm_resource_group" "private_endpoints" {
-  name     = "rg-${var.workload}-pe-${local.affix}"
+  name     = "rg-${var.workload}-privatelink-${local.affix}"
   location = var.location
 }
 
@@ -95,12 +96,11 @@ module "entra_users" {
 }
 
 module "data_lake" {
-  source                                 = "./modules/datalake"
-  workload                               = "${var.workload}${local.affix}"
-  resource_group_name                    = azurerm_resource_group.default.name
-  location                               = azurerm_resource_group.default.location
-  ip_network_rules                       = local.allowed_ip_addresses
-  datastores_service_principal_object_id = module.entra_service_principal.service_principal_object_id
+  source              = "./modules/datalake"
+  workload            = "${var.workload}${local.affix}"
+  resource_group_name = azurerm_resource_group.default.name
+  location            = azurerm_resource_group.default.location
+  ip_network_rules    = local.allowed_ip_addresses
 }
 
 module "mssql" {
@@ -128,9 +128,13 @@ module "ml_workspace" {
   storage_account_id      = module.storage.storage_account_id
   key_vault_id            = module.keyvault.key_vault_id
   container_registry_id   = module.cr.id
-
-  data_lake_id = module.data_lake.id
 }
+
+# module "ml_datastores" {
+#   source                                 = "./modules/ml/datastores"
+#   datalake_id                            = module.data_lake.id
+#   datastores_service_principal_object_id = module.entra_service_principal.service_principal_object_id
+# }
 
 module "private_endpoints" {
   source                      = "./modules/private-endpoints"
@@ -201,13 +205,13 @@ module "vm" {
 }
 
 module "datascientist_permissions" {
-  source            = "./modules/iam/data-scientist"
-  user_object_id    = module.entra_users.data_scientist_user_object_id
-  resource_group_id = azurerm_resource_group.default.id
+  source             = "./modules/iam/data-scientist"
+  user_object_id     = module.entra_users.data_scientist_user_object_id
+  resource_group_ids = local.resouce_group_ids
 }
 
 module "administrator_permissions" {
-  source            = "./modules/iam/administrator"
-  user_object_id    = module.entra_users.administrator_user_object_id
-  resource_group_id = azurerm_resource_group.default.id
+  source             = "./modules/iam/administrator"
+  user_object_id     = module.entra_users.administrator_user_object_id
+  resource_group_ids = local.resouce_group_ids
 }

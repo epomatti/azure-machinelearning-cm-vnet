@@ -25,7 +25,3 @@ variable "storage_account_id" {
 variable "container_registry_id" {
   type = string
 }
-
-variable "data_lake_id" {
-  type = string
-}

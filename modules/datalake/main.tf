@@ -56,10 +56,3 @@ resource "azurerm_storage_blob" "csv" {
   type                   = "Block"
   source                 = "${path.module}/${local.file}"
 }
-
-### Datastore Service Principal ###
-resource "azurerm_role_assignment" "datastore" {
-  scope                = azurerm_storage_account.lake.id
-  role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = var.datastores_service_principal_object_id
-}

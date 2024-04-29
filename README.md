@@ -73,6 +73,16 @@ After creating the compute node, follow the [documentation][6] to enable docker 
 az ml workspace update --name myworkspace --resource-group myresourcegroup --image-build-compute mycomputecluster
 ```
 
+## IAM
+
+This project has two roles which require different set of permissions:
+
+| User | Activities |
+|------|------------|
+| `azureadmin` | Administration of all related Azure resources. |
+| `datascientist` | Development in the AML workspace. |
+
+
 ## Forward Proxy
 
 ### Squid

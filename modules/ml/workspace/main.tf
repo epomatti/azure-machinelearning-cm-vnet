@@ -80,16 +80,3 @@ resource "azurerm_role_assignment" "container_registry" {
   role_definition_name = "Contributor"
   principal_id         = azurerm_user_assigned_identity.mlw.principal_id
 }
-
-### Data Stores ###
-resource "azurerm_role_assignment" "lake" {
-  scope                = var.data_lake_id
-  role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = azurerm_user_assigned_identity.mlw.principal_id
-}
-
-resource "azurerm_role_assignment" "lake_contributor" {
-  scope                = var.data_lake_id
-  role_definition_name = "Contributor"
-  principal_id         = azurerm_user_assigned_identity.mlw.principal_id
-}
