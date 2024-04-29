@@ -38,8 +38,6 @@ resource "azurerm_machine_learning_workspace" "default" {
     azurerm_role_assignment.storage,
     azurerm_role_assignment.storage_contributor,
     azurerm_role_assignment.application_insights,
-    azurerm_role_assignment.lake,
-    azurerm_role_assignment.lake_contributor,
     azurerm_role_assignment.container_registry
   ]
 }
