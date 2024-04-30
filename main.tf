@@ -82,17 +82,18 @@ module "cr" {
   allowed_ip_address  = var.allowed_ip_address
 }
 
-module "entra_service_principal" {
-  source   = "./modules/entra/service-principal"
-  workload = var.workload
-}
-
 module "entra_users" {
   source                  = "./modules/entra/users"
   tenant_domain           = var.entraid_tenant_domain
   data_scientist_username = var.entraid_data_scientist_username
   administrator_username  = var.entraid_administrator_username
   user_password           = var.entraid_user_password
+}
+
+module "entra_service_principal" {
+  source                       = "./modules/entra/service-principal"
+  workload                     = var.workload
+  administrator_user_object_id = module.entra_users.administrator_user_object_id
 }
 
 module "data_lake" {
@@ -204,14 +205,14 @@ module "vm" {
   password            = var.vm_password
 }
 
-module "datascientist_permissions" {
-  source             = "./modules/iam/data-scientist"
-  user_object_id     = module.entra_users.data_scientist_user_object_id
-  resource_group_ids = local.resouce_group_ids
-}
-
 module "administrator_permissions" {
   source             = "./modules/iam/administrator"
   user_object_id     = module.entra_users.administrator_user_object_id
+  resource_group_ids = local.resouce_group_ids
+}
+
+module "datascientist_permissions" {
+  source             = "./modules/iam/data-scientist"
+  user_object_id     = module.entra_users.data_scientist_user_object_id
   resource_group_ids = local.resouce_group_ids
 }
