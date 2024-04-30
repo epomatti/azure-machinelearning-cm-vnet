@@ -2,6 +2,7 @@ data "azuread_client_config" "current" {}
 
 resource "azuread_application" "datastores" {
   display_name = "datastores-${var.workload}"
+  owners       = [data.azuread_client_config.current.object_id, var.administrator_user_object_id]
 }
 
 resource "azuread_service_principal" "datastores" {
