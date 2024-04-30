@@ -18,6 +18,18 @@ resource "azurerm_role_assignment" "rgs_aml_data_scientist" {
   principal_id         = var.user_object_id
 }
 
+resource "azurerm_role_assignment" "acr_push" {
+  scope                = var.acr_id
+  role_definition_name = "AcrPush"
+  principal_id         = var.user_object_id
+}
+
+resource "azurerm_role_assignment" "acr_delete" {
+  scope                = var.acr_id
+  role_definition_name = "AcrDelete"
+  principal_id         = var.user_object_id
+}
+
 # resource "azurerm_role_assignment" "blob_data_owner" {
 #   scope                = var.resource_group_id
 #   role_definition_name = "Storage Blob Data Owner"
@@ -27,11 +39,5 @@ resource "azurerm_role_assignment" "rgs_aml_data_scientist" {
 # resource "azurerm_role_assignment" "blob_data_contributor" {
 #   scope                = var.resource_group_id
 #   role_definition_name = "Storage Blob Data Contributor"
-#   principal_id         = var.user_object_id
-# }
-
-# resource "azurerm_role_assignment" "key_vault_administrator" {
-#   scope                = var.resource_group_id
-#   role_definition_name = "Key Vault Administrator"
 #   principal_id         = var.user_object_id
 # }

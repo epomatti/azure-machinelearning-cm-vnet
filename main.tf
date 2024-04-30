@@ -215,4 +215,5 @@ module "datascientist_permissions" {
   source             = "./modules/iam/data-scientist"
   user_object_id     = module.entra_users.data_scientist_user_object_id
   resource_group_ids = local.resouce_group_ids
+  acr_id             = module.cr.id
 }

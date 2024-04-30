@@ -5,3 +5,7 @@ variable "user_object_id" {
 variable "resource_group_ids" {
   type = list(string)
 }
+
+variable "acr_id" {
+  type = string
+}
