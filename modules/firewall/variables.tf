@@ -10,7 +10,15 @@ variable "location" {
   type = string
 }
 
+variable "region_service_tag" {
+  type = string
+}
+
 variable "machilelearning_rg_name" {
+  type = string
+}
+
+variable "aml_workspace_default_storage_name" {
   type = string
 }
 

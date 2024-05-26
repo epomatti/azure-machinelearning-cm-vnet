@@ -84,15 +84,22 @@ This project has two roles which require different set of permissions:
 
 ## Firewall
 
+To demonstrate protection against data exfiltration, this exercise implements Azure Firewall. The requirements for this design are documented in this [Configure inbound and outbound network traffic][8] article.
+
+> [!IMPORTANT]
+> Additional steps for hardening the data exfiltration protection are available in the [Azure Machine Learning data exfiltration prevention][9] documentation.
+
+
+Set the flag to enable the Azure Firewall resources and `apply` the infrastructure:
+
 ```terraform
-# Set the NSG for the training subnet to allow only VNET traffic.
-vnet_training_nsg_source_address_prefix      = "VirtualNetwork"
-vnet_training_nsg_destination_address_prefix = "VirtualNetwork"
-
-
-# Enable the Firewall creation
 firewall_create_flag = true
 ```
+
+This will create the firewall, policies, rules, routes, and other resources.
+
+> [!TIP]
+> It's also possible to get a list of hosts and ports, following this [guideline][10].
 
 ## Forward Proxy
 
@@ -173,3 +180,6 @@ terraform destroy -auto-approve
 [5]: https://ubuntu.com/server/docs/how-to-install-a-squid-server
 [6]: https://docs.microsoft.com/azure/machine-learning/how-to-secure-workspace-vnet#enable-azure-container-registry-acr
 [7]: https://learn.microsoft.com/en-us/azure/machine-learning/how-to-secure-workspace-vnet?view=azureml-api-2&tabs=required%2Cpe%2Ccli#required-public-internet-access
+[8]: https://learn.microsoft.com/en-us/azure/machine-learning/how-to-access-azureml-behind-firewall?view=azureml-api-2&tabs=ipaddress%2Cpublic
+[9]: https://learn.microsoft.com/en-us/azure/machine-learning/how-to-prevent-data-loss-exfiltration?view=azureml-api-2&tabs=servicetag
+[10]: https://learn.microsoft.com/en-us/azure/machine-learning/how-to-access-azureml-behind-firewall?view=azureml-api-2&tabs=ipaddress%2Cpublic#dependencies-api

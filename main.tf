@@ -187,11 +187,13 @@ module "firewall" {
   count  = var.firewall_create_flag ? 1 : 0
   source = "./modules/firewall"
 
-  machilelearning_rg_name = azurerm_resource_group.default.name
+  machilelearning_rg_name            = azurerm_resource_group.default.name
+  aml_workspace_default_storage_name = module.storage.storage_account_name
 
-  workload = var.workload
-  affix    = local.affix
-  location = var.location
+  workload           = var.workload
+  affix              = local.affix
+  location           = var.location
+  region_service_tag = var.region_service_tag
 
   firewall_sku_tier   = var.firewall_sku_tier
   firewall_policy_sku = var.firewall_policy_sku
@@ -202,7 +204,7 @@ module "firewall" {
   # bastion_subnet_id                = module.vnet.bastion_subnet_id
   training_subnet_address_prefixes = module.vnet.training_subnet_address_prefixes
   # bastion_subnet_address_prefixes  = module.vnet.bastion_subnet_address_prefixes
-  training_nsg_id = ""
+  training_nsg_id = "" # TODO: implement this
 }
 
 module "proxy" {

@@ -2,6 +2,10 @@ variable "workload" {
   type = string
 }
 
+variable "region_service_tag" {
+  type = string
+}
+
 variable "policies_sku" {
   type = string
 }
@@ -27,5 +31,9 @@ variable "training_subnet_address_prefixes" {
 # }
 
 variable "log_analytics_workspace_id" {
+  type = string
+}
+
+variable "aml_workspace_default_storage_name" {
   type = string
 }

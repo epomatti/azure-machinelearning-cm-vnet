@@ -6,8 +6,8 @@ workload = "litware"
 allowed_ip_address = ""
 
 # VNET
-vnet_training_nsg_source_address_prefix      = "*" # *, VirtualNetwork
-vnet_training_nsg_destination_address_prefix = "*" # *,Internet, VirtualNetwork
+vnet_training_nsg_source_address_prefix      = "VirtualNetwork" # *, VirtualNetwork
+vnet_training_nsg_destination_address_prefix = "*"              # *,Internet, VirtualNetwork
 
 # Machine Learning - Training
 mlw_instance_create_flag             = false

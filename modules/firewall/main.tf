@@ -35,12 +35,14 @@ module "policy" {
   source                           = "./policy"
   workload                         = var.workload
   location                         = azurerm_resource_group.default.location
+  region_service_tag               = var.region_service_tag
   resource_group_name              = azurerm_resource_group.default.name
   policies_sku                     = var.firewall_policy_sku
   firewall_subnet_prefixes         = module.vnet_firewall.firewall_subnet_address_prefixes
   training_subnet_address_prefixes = var.training_subnet_address_prefixes
   # bastion_subnet_address_prefixes  = var.bastion_subnet_address_prefixes
-  log_analytics_workspace_id       = azurerm_log_analytics_workspace.default.id
+  log_analytics_workspace_id         = azurerm_log_analytics_workspace.default.id
+  aml_workspace_default_storage_name = var.aml_workspace_default_storage_name
 }
 
 module "firewall" {

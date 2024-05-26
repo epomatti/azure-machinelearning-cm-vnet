@@ -3,6 +3,11 @@ variable "location" {
   default = "eastus2"
 }
 
+variable "region_service_tag" {
+  description = "value to be used in the service tag for the region"
+  type = string
+}
+
 variable "workload" {
   type    = string
   default = "litware"
