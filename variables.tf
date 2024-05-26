@@ -108,3 +108,16 @@ variable "entraid_user_password" {
   type      = string
   sensitive = true
 }
+
+### Firewall ###
+variable "firewall_create_flag" {
+  type = bool
+}
+
+variable "firewall_sku_tier" {
+  type = string
+}
+
+variable "firewall_policy_sku" {
+  type = string
+}

@@ -82,6 +82,17 @@ This project has two roles which require different set of permissions:
 | `azureadmin` | Administration of all related Azure resources. |
 | `datascientist` | Development in the AML workspace. |
 
+## Firewall
+
+```terraform
+# Set the NSG for the training subnet to allow only VNET traffic.
+vnet_training_nsg_source_address_prefix      = "VirtualNetwork"
+vnet_training_nsg_destination_address_prefix = "VirtualNetwork"
+
+
+# Enable the Firewall creation
+firewall_create_flag = true
+```
 
 ## Forward Proxy
 

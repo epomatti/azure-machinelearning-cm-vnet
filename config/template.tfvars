@@ -19,24 +19,29 @@ mlw_aks_create_flag = false
 mlw_aks_node_count  = 1
 mlw_aks_vm_size     = "Standard_D2as_V4"
 
-# Proxy
-vm_proxy_create_flag = false
-vm_proxy_vm_size     = "Standard_B2ls_v2"
-
 # MSSQL
 mssql_create_flag          = false
 mssql_sku                  = "Basic"
 mssql_max_size_gb          = 2
 mssql_admin_login          = "sqladmin"
-mssql_admin_login_password = "P4ssw0rd!2023"
+mssql_admin_login_password = "P@ssw0rd.123"
 
-# Jump Serve Virtual Machine
+# Jump Server Virtual Machine
 vm_size      = "Standard_B4as_v2"
 vm_image_sku = "win11-23h2-ent"
 vm_password  = "P@ssw0rd.123"
 
 # Users
 entraid_tenant_domain           = "pomatti.io"
-entraid_data_scientist_username = "datascientist"
 entraid_administrator_username  = "azureadmin"
-entraid_user_password           = "P4ssw0rd!2023"
+entraid_data_scientist_username = "datascientist"
+entraid_user_password           = "P@ssw0rd.123"
+
+# Firewall
+firewall_create_flag = false
+firewall_sku_tier    = "Standard"
+firewall_policy_sku  = "Standard"
+
+# Proxy
+vm_proxy_create_flag = false
+vm_proxy_vm_size     = "Standard_B2ls_v2"

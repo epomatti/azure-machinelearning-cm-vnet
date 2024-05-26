@@ -2,7 +2,7 @@ terraform {
   required_providers {
     azurerm = {
       source  = "hashicorp/azurerm"
-      version = "3.104.2"
+      version = "3.105.0"
     }
     azuread = {
       source  = "hashicorp/azuread"
@@ -181,6 +181,28 @@ module "ml_aks" {
   node_count                    = var.mlw_aks_node_count
   vm_size                       = var.mlw_aks_vm_size
   container_registry_id         = module.cr.id
+}
+
+module "firewall" {
+  count  = var.firewall_create_flag ? 1 : 0
+  source = "./modules/firewall"
+
+  machilelearning_rg_name = azurerm_resource_group.default.name
+
+  workload = var.workload
+  affix    = local.affix
+  location = var.location
+
+  firewall_sku_tier   = var.firewall_sku_tier
+  firewall_policy_sku = var.firewall_policy_sku
+
+  machinelearning_vnet_id   = module.vnet.vnet_id
+  machinelearning_vnet_name = module.vnet.vnet_name
+  training_subnet_id        = module.vnet.training_subnet_id
+  # bastion_subnet_id                = module.vnet.bastion_subnet_id
+  training_subnet_address_prefixes = module.vnet.training_subnet_address_prefixes
+  # bastion_subnet_address_prefixes  = module.vnet.bastion_subnet_address_prefixes
+  training_nsg_id = ""
 }
 
 module "proxy" {
