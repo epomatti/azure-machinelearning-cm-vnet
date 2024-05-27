@@ -38,7 +38,8 @@ Manually create the datastores in AML and run the test notebooks.
 
 Create the AML compute and other resources by changing the appropriate flags:
 
-> 💡 Follow the [documentation][2] steps to enable AKS VNET integration, if not yet done so.
+> [!NOTE]
+> Follow the [documentation][2] steps to enable AKS VNET integration, if not yet done so.
 
 ```terraform
 mlw_instance_create_flag = true
@@ -143,7 +144,8 @@ curl -x "http://squid.private.litware.com:3128" "https://example.com/"
 
 ### NGINX
 
-> ⚠️ From this [thread][4], running NGINX full proxy with HTTPS will required additional configuration steps.
+> [!NOTE]
+> From this [thread][4], running NGINX full proxy with HTTPS will required additional configuration steps.
 
 Connect to the proxy server:
 
