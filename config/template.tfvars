@@ -1,6 +1,7 @@
 # Project
-location = "brazilsouth"
-workload = "litware"
+location           = "brazilsouth"
+region_service_tag = "BrazilSouth"
+workload           = "litware"
 
 # The IPv4 from where you'll access the resources
 allowed_ip_address = ""
