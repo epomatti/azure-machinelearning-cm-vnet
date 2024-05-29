@@ -226,7 +226,8 @@ module "vm" {
   size                = var.vm_size
   image_sku           = var.vm_image_sku
   subnet              = module.vnet.bastion_subnet_id
-  password            = var.vm_password
+  admin_username      = var.vm_admin_username
+  admin_password      = var.vm_admin_password
 }
 
 module "administrator_permissions" {

@@ -22,7 +22,11 @@ variable "image_sku" {
   type = string
 }
 
-variable "password" {
+variable "admin_username" {
+  type = string
+}
+
+variable "admin_password" {
   type      = string
   sensitive = true
 }

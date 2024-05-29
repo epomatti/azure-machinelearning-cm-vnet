@@ -28,9 +28,10 @@ mssql_admin_login          = "sqladmin"
 mssql_admin_login_password = "P@ssw0rd.123"
 
 # Jump Server Virtual Machine
-vm_size      = "Standard_B4as_v2"
-vm_image_sku = "win11-23h2-ent"
-vm_password  = "P@ssw0rd.123"
+vm_size           = "Standard_B4as_v2"
+vm_image_sku      = "win11-23h2-ent"
+vm_admin_username = "windowsadmin"
+vm_admin_password = "P@ssw0rd.123"
 
 # Users
 entraid_tenant_domain           = "pomatti.io"

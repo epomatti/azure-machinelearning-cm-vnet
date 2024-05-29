@@ -5,7 +5,7 @@ variable "location" {
 
 variable "region_service_tag" {
   description = "value to be used in the service tag for the region"
-  type = string
+  type        = string
 }
 
 variable "workload" {
@@ -91,7 +91,11 @@ variable "vm_image_sku" {
   type = string
 }
 
-variable "vm_password" {
+variable "vm_admin_username" {
+  type = string
+}
+
+variable "vm_admin_password" {
   type      = string
   sensitive = true
 }
