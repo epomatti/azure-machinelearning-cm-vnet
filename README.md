@@ -45,23 +45,6 @@ Create the AML compute and other resources by changing the appropriate flags:
 mlw_instance_create_flag = true
 mlw_aks_create_flag      = true
 mlw_mssql_create_flag    = true
-vm_proxy_create_flag     = true
-```
-
-```sh
-#!/bin/bash
-
-proxy_domain=squid.private.litware.com
-
-sudo echo "export HTTP_PROXY=$proxy_domain" >> ~/.bashrc
-sudo echo "export HTTPS_PROXY=$proxy_domain" >> ~/.bashrc
-```
-
-Proxy connection will be configured on init following the [proxy documentation][7].
-
-```sh
-echo "$http_proxy"
-echo "$https_proxy"
 ```
 
 ## Container Registry
@@ -103,6 +86,22 @@ This will create the firewall, policies, rules, routes, and other resources.
 > It's also possible to get a list of hosts and ports, following this [guideline][10].
 
 ## Forward Proxy
+
+> ![CAUTION]
+> It was not possible to configure a forward proxy on instance creation (with a creation script) when deploying to an isolated Virtual Network. It seems that the provisioning procedure is overriding the proxy configuration from the startup script. The only official architecture supported by Microsoft with network isolation seems to be using a Firewall for egress. 
+
+### Enable Proxy
+
+Set the proxy flag to `true`:
+
+```terraform
+vm_proxy_create_flag = true
+```
+
+Configure the compute instance with sample file [custom/instance-proxy-init.sh](./custom/instance-proxy-init.sh).
+
+Proxy connection will be configured on init following the [proxy documentation][7].
+
 
 ### Squid
 

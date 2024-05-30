@@ -8,6 +8,10 @@ terraform {
       source  = "hashicorp/azuread"
       version = "2.50.0"
     }
+    azapi = {
+      source  = "Azure/azapi"
+      version = "1.13.1"
+    }
   }
 }
 
@@ -119,6 +123,12 @@ module "mssql" {
   localfw_end_ip_address   = var.allowed_ip_address
 }
 
+# module "ml_datastores" {
+#   source                                 = "./modules/ml/datastores"
+#   datalake_id                            = module.data_lake.id
+#   datastores_service_principal_object_id = module.entra_service_principal.service_principal_object_id
+# }
+
 module "ml_workspace" {
   source              = "./modules/ml/workspace"
   workload            = "${var.workload}${local.affix}"
@@ -131,14 +141,29 @@ module "ml_workspace" {
   container_registry_id   = module.cr.id
 }
 
-# module "ml_datastores" {
-#   source                                 = "./modules/ml/datastores"
-#   datalake_id                            = module.data_lake.id
-#   datastores_service_principal_object_id = module.entra_service_principal.service_principal_object_id
-# }
+module "ampls" {
+  source                     = "./modules/privatelink/scope"
+  workload                   = var.workload
+  resource_group_name        = azurerm_resource_group.default.name
+  resouce_group_id           = azurerm_resource_group.default.id
+  log_analytics_workspace_id = module.monitor.log_analytics_workspace_id
+  application_insights_id    = module.monitor.application_insights_id
+}
 
-module "private_endpoints" {
-  source                      = "./modules/private-endpoints"
+module "privatelink_monitor" {
+  source              = "./modules/privatelink/monitor"
+  workload            = "${var.workload}${local.affix}"
+  location            = azurerm_resource_group.default.location
+  resource_group_name = azurerm_resource_group.default.name
+
+  vnet_id                       = module.vnet.vnet_id
+  ampls_subnet_id               = module.vnet.private_endpoints_subnet_id
+  monitor_private_link_scope_id = module.ampls.monitor_private_link_scope_id
+  private_dns_zone_blob_id      = module.privatelink_aml.private_dns_zone_blob_id
+}
+
+module "privatelink_aml" {
+  source                      = "./modules/privatelink/aml"
   resource_group_name         = azurerm_resource_group.private_endpoints.name
   location                    = azurerm_resource_group.default.location
   vnet_id                     = module.vnet.vnet_id
@@ -163,8 +188,6 @@ module "ml_compute" {
   instance_vm_size              = var.mlw_instance_vm_size
   ssh_public_key                = local.ssh_public_key
   training_subnet_id            = module.vnet.training_subnet_id
-
-  depends_on = [module.private_endpoints]
 }
 
 module "ml_aks" {
@@ -204,7 +227,7 @@ module "firewall" {
   # bastion_subnet_id                = module.vnet.bastion_subnet_id
   training_subnet_address_prefixes = module.vnet.training_subnet_address_prefixes
   # bastion_subnet_address_prefixes  = module.vnet.bastion_subnet_address_prefixes
-  training_nsg_id = "" # TODO: implement this
+  training_nsg_id = "" # TODO: Network access refinement. Will implement if possible in the future.
 }
 
 module "proxy" {

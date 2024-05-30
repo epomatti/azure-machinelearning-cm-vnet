@@ -6,7 +6,7 @@ workload           = "litware"
 # The IPv4 from where you'll access the resources
 allowed_ip_address = ""
 
-# VNET
+# Virtual Network
 vnet_training_nsg_source_address_prefix      = "VirtualNetwork" # *, VirtualNetwork
 vnet_training_nsg_destination_address_prefix = "*"              # *,Internet, VirtualNetwork
 
