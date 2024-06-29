@@ -123,17 +123,12 @@ module "mssql" {
   localfw_end_ip_address   = var.allowed_ip_address
 }
 
-# module "ml_datastores" {
-#   source                                 = "./modules/ml/datastores"
-#   datalake_id                            = module.data_lake.id
-#   datastores_service_principal_object_id = module.entra_service_principal.service_principal_object_id
-# }
-
 module "ml_workspace" {
-  source              = "./modules/ml/workspace"
-  workload            = "${var.workload}${local.affix}"
-  resource_group_name = azurerm_resource_group.default.name
-  location            = azurerm_resource_group.default.location
+  source                        = "./modules/ml/workspace"
+  workload                      = "${var.workload}${local.affix}"
+  resource_group_name           = azurerm_resource_group.default.name
+  location                      = azurerm_resource_group.default.location
+  public_network_access_enabled = var.mlw_public_network_access_enabled
 
   application_insights_id = module.monitor.application_insights_id
   storage_account_id      = module.storage.storage_account_id

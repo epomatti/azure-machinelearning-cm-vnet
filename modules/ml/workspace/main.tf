@@ -5,12 +5,11 @@ resource "azurerm_user_assigned_identity" "mlw" {
 }
 
 resource "azurerm_machine_learning_workspace" "default" {
-  name                = "mlw-${var.workload}"
-  friendly_name       = "Litware Machine Learning"
-  location            = var.location
-  resource_group_name = var.resource_group_name
-
-  public_network_access_enabled = false
+  name                          = "mlw-${var.workload}"
+  friendly_name                 = "Litware Machine Learning"
+  location                      = var.location
+  resource_group_name           = var.resource_group_name
+  public_network_access_enabled = var.public_network_access_enabled
 
   application_insights_id = var.application_insights_id
   key_vault_id            = var.key_vault_id

@@ -25,3 +25,7 @@ variable "storage_account_id" {
 variable "container_registry_id" {
   type = string
 }
+
+variable "public_network_access_enabled" {
+  type = bool
+}

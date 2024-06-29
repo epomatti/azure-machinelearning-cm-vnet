@@ -20,8 +20,13 @@ Configuration:
 Generate a key pair to manage instances with SSH:
 
 ```sh
+mkdir keys
 ssh-keygen -f keys/ssh_key
 ```
+
+> [!TIP]
+> To allow public connection to the AML workspace, set `mlw_public_network_access_enabled = true`
+
 
 Create the resources:
 

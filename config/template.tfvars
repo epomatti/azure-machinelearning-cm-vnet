@@ -4,7 +4,7 @@ region_service_tag = "BrazilSouth"
 workload           = "litware"
 
 # The IPv4 from where you'll access the resources
-allowed_ip_address = ""
+allowed_ip_address = "<YOUR_IP_ADDRESS>"
 
 # Virtual Network
 vnet_training_nsg_source_address_prefix      = "VirtualNetwork" # *, VirtualNetwork
@@ -14,6 +14,7 @@ vnet_training_nsg_destination_address_prefix = "*"              # *,Internet, Vi
 mlw_instance_create_flag             = false
 mlw_instance_vm_size                 = "STANDARD_D2AS_V4"
 mlw_instance_ssh_public_key_rel_path = "keys/ssh_key.pub"
+mlw_public_network_access_enabled    = false
 
 # Machine Learning - AKS
 mlw_aks_create_flag = false
@@ -34,7 +35,7 @@ vm_admin_username = "windowsadmin"
 vm_admin_password = "P@ssw0rd.123"
 
 # Users
-entraid_tenant_domain           = "pomatti.io"
+entraid_tenant_domain           = "<YOUR_TENANT>"
 entraid_administrator_username  = "azureadmin"
 entraid_data_scientist_username = "datascientist"
 entraid_user_password           = "P@ssw0rd.123"

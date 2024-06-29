@@ -39,6 +39,10 @@ variable "mlw_instance_ssh_public_key_rel_path" {
   type = string
 }
 
+variable "mlw_public_network_access_enabled" {
+  type = bool
+}
+
 ### AKS ###
 variable "mlw_aks_create_flag" {
   type = bool
